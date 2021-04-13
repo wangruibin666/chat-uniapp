@@ -5,13 +5,13 @@
 			<text slot="title">设置备注和标签</text>
 			<freeIconButton slot="right" @click="openAction">
 				<!-- 完成按钮 -->
-				<free-main-button name="完成" @click="send('text')"></free-main-button>
+				<free-main-button name="完成" @click="submit"></free-main-button>
 			</freeIconButton>
 		</free-nav-bar>
 		
 		<view class="flex flex-column">
 			<text class="font-sm text-secondary px-3 py-2">备注名</text>
-			<input type="text" class="border font-md px-3 bg-white" style="height: 100rpx;" placeholder="请填写备注名">
+			<input type="text" class="border font-md px-3 bg-white" style="height: 100rpx;" placeholder="请填写备注名" v-model="nickname">
 		</view>
 		
 		<view class="flex flex-column">
@@ -35,21 +35,29 @@
 		},
 		data() {
 			return {
+				nickname: '',
 				tagList: ['123', '321']
 			}
 		},
 		onLoad() {
 			uni.$on('updateTag', (res)=>{
-				console.log(1)
+				this.tagList = res
 			})
 		},
 		beforeDestroy() {
-			uni.$off('updateTag')
+			// uni.$off('updateTag')
 		},
 		methods: {
 			openTagSet(){
 				uni.navigateTo({
 					url: '../user-tag-set/user-tag-set?detail=' + JSON.stringify(this.tagList)
+				})
+			},
+			//完成
+			submit(){
+				uni.$emit('saveRemarkTag',{nickname: this.nickname, tagList: this.tagList})
+				uni.navigateBack({
+					delta:1
 				})
 			}
 		}

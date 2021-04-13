@@ -8,7 +8,13 @@
 			<slot name="title">
 				<view class="flex align-center">
 					<text class="font-md text-dark">{{title}}</text>
-					<text v-if="label" class="font-md text-light-muted ml-3">{{label}}</text>
+					<view v-if="label&&labelList.length" class="flex justify-start">
+						<text v-for="(item,index) in labelList" class="font-md text-light-muted ml-3">{{item}}</text>
+					</view>
+					<view class="" v-if="!labelList.length&&label">
+						<text class="font-md text-light-muted ml-3">未设置</text>
+					</view>
+					
 					<image v-if="src" :src="src" mode="" class="ml-3" style="width: 90rpx;height: 90rpx;"></image>
 				</view>
 			</slot>
@@ -34,8 +40,12 @@
 				default: ''
 			},
 			label:{
-				type: String,
-				default: ''
+				type: Boolean,
+				default: false
+			},
+			labelList:{
+				type: Array,
+				default: ()=>[]
 			},
 			showRightIcon: {
 				type: Boolean,

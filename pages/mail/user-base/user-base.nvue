@@ -11,14 +11,14 @@
 		<view class="px-3 py-4 flex align-center bg-white border-bottom">
 			<free-avatar src="/static/images/emotion/chouyan.jpeg" size="120"></free-avatar>
 			<view class="flex flex-column ml-3">
-				<text class="font-lg font-weight-bold mb-1">文弱书生</text>
+				<text class="font-lg font-weight-bold mb-1">{{nickname}}</text>
 				<text class="font-md text-light-muted">账号: summer</text>
 				<text class="font-md text-light-muted">地区: 安徽合肥</text>
 			</view>
 		</view>
 
 
-		<free-list-item title="标签" label="haha" :showRight="true" :showLeftIcon="false" @click="openTagSet"></free-list-item>
+		<free-list-item title="标签" :label="true" :labelList="tagList" :showRight="true" :showLeftIcon="false" @click="openTagSet"></free-list-item>
 		<freeDivider></freeDivider>
 		<free-list-item title="朋友圈" src="/static/images/emotion/danshen.jpg" :showRight="true" :showLeftIcon="false"></free-list-item>
 
@@ -62,6 +62,8 @@
 		},
 		data() {
 			return {
+				nickname: "文弱书生",
+				tagList:[],
 				actions:[
 					{
 						icon: "\ue6b3",
@@ -90,10 +92,18 @@
 				]
 			}
 		},
+		onLoad() {
+			uni.$on('saveRemarkTag', e => {
+				this.tagList = e.tagList
+				this.nickname = e.nickname
+			})
+		},
+		beforeDestroy() {
+			uni.$off('saveRemarkTag')
+		},
 		methods: {
 			//打开操作菜单
 			openAction() {
-				console.log(111)
 				this.$refs.action.show()
 			},
 			//跳转

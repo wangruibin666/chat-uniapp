@@ -51,7 +51,7 @@
 		methods: {
 			//保存
 			save(){
-				this.$emit('updateTag', 666)
+				uni.$emit('updateTag', this.list)
 				uni.navigateBack({
 					delta:1
 				})
