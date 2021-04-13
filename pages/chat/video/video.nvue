@@ -1,0 +1,49 @@
+<template>
+	<view>
+		<video :src="url" controls auto-play="true" style="width: 750rpx;" :style="height" @ended="back"></video>
+		<view class="position-absolute rounded flex align-center justify-center" style="top:30px;left: 20px;height: 80rpx;width: 80rpx;background-color: rgba(255,255,255,0.3);" @click="back">
+			<text class="iconfont text-white">&#xe620;</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				url:'',
+				windowHeight:500
+			}
+		},
+		computed:{
+			height(){
+				return `height:${this.windowHeight}px`
+			}
+		},
+		onLoad(e) {
+			if(e.url === ''){
+				this.back()
+				return uni.showToast({
+					title:'非法视频',
+					icon:'none'
+				})
+			}
+			this.url = e.url
+			// 动态获取屏幕高度
+			let res = uni.getSystemInfoSync()
+			console.log(res.windowHeight)
+			this.windowHeight = res.windowHeight
+		},
+		methods: {
+			back(){
+				uni.navigateBack({
+					delta: 1
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>

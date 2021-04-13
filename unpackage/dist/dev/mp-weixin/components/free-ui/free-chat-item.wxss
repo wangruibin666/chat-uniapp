@@ -1,0 +1,12 @@
+
+.bg-left-icon.data-v-5376c07c{
+	left: 90rpx;
+	top:20rpx;
+}
+.bg-right-icon.data-v-5376c07c{
+	right: 92rpx;
+	top:20rpx;
+}
+.chat-animate.data-v-5376c07c{
+}
+

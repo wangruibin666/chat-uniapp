@@ -1,0 +1,102 @@
+<template>
+	<view class="page">
+		<!-- 导航栏 -->
+		<free-nav-bar :title="true" :fixed="true" bgColor="bg-white" showBack>
+			<text slot="title">设置备注和标签</text>
+			<freeIconButton slot="right" @click="openAction">
+				<!-- 完成按钮 -->
+				<free-main-button name="保存" @click="save"></free-main-button>
+			</freeIconButton>
+		</free-nav-bar>
+		
+		<view class="border-bottom px-3 pt-3 pb-2 flex flex-wrap align-center">
+			<view v-for="(item, index) in list" :key="index" class="mr-1 mb-1 border-main rounded-circle py-1 px-2 flex align-center justify-center" @click="delTag(index)">
+				<text class="font main-text-color">{{item}}</text>
+			</view>
+			<input type="text" class="border bg-white font rounded-circle text-center" style="width: 180rpx; border-style: dashed;" placeholder="添加标签" v-model="tag" @confirm="addTag" confirm-type="send"/>
+		</view>
+		
+		<view class="flex flex-column">
+			<text class="font-sm text-secondary px-3 py-2">所有标签</text>
+			<view class="px-3  flex align-center pt-3 pb-2 flex-wrap" style="">
+				<view v-for="(item, index) in allList" :key="index" class="bg-white ml-1 mb-1 rounded-circle border  px-2 py-1" style="" @click="fastAddTag(item)">
+					<text class="font text-dark">{{item}}</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
+	import freeMainButton from '@/components/free-ui/free-main-button.vue'
+	export default {
+		components:{
+			freeNavBar,
+			freeMainButton
+		},
+		data() {
+			return {
+				tag:'',
+				list:[],
+				allList: ['哈哈', '嘻嘻', '呵呵']
+			}
+		},
+		onLoad(e) {
+			if(e.detail){
+				this.list = JSON.parse(e.detail)
+				console.log(this.list)
+			}
+		},
+		methods: {
+			//保存
+			save(){
+				this.$emit('updateTag', 666)
+				uni.navigateBack({
+					delta:1
+				})
+			},
+			// 增加标签
+			addTag(){
+				if(this.tag == ''){
+					return
+				}
+				if( this.list.includes(this.tag)){
+					this.tag = ''
+					return uni.showToast({
+						title:'标签已存在',
+						icon: 'none'
+					})
+				}
+				this.list.push(this.tag)
+				this.tag = ''
+			},
+			//快捷增加标签
+			fastAddTag(item){
+				if( this.list.includes(item)){
+					return uni.showToast({
+						title:'标签已存在',
+						icon: 'none'
+					})
+				}
+				this.list.push(item)
+			},
+			//点击删除标签
+			delTag(index){
+				uni.showModal({
+					content:'是否删除该标签?',
+					success: (res) => {
+						if(res.confirm){
+							this.list.splice(index,1)
+						}
+					}
+				})
+				
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>

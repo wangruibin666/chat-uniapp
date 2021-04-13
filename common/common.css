@@ -1,0 +1,30 @@
+/* 1.页面背景颜色 */
+.page{
+	background-color: #EDEDED;
+	/* #ifndef APP-PLUS-NVUE */
+	min-height: 100%;
+	height: auto;
+	/* #endif */
+	/* #ifdef APP-PLUS-NVUE */
+	flex: 1;
+	/* #endif */
+	
+}
+/* 主背景色 */
+.main-bg-color{
+	background-color: #08C060;
+}
+/* 主文字色 */
+.main-text-color{
+	color: #08C060;
+}
+.border-main{
+	border-color:  #08C060;
+}
+.bg-chat-item{
+	background-color: #6BEE68;
+}
+.text-chat-item{
+	color: #6BEE68;
+	/* background-color: #6BEE68; */
+}

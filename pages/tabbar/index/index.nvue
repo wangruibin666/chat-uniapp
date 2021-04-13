@@ -1,0 +1,158 @@
+<template>
+	<view>
+		<!-- 导航栏 -->
+		<free-nav-bar :title="true" :fixed="true">
+			<template slot="title">
+				微信(10)
+			</template>
+		</free-nav-bar>
+		
+		<!-- 列表 -->
+		<!-- 置顶列表 -->
+		<block v-for="(item,index) in list" :key="index">
+			<free-media-list v-if="item.istop" @long="long" :item="item" :index="index"></free-media-list>
+		</block>
+		<!-- 非置顶列表 -->
+		<block v-for="(item,index) in list" :key="index">
+			<free-media-list v-if="!item.istop" @long="long" :item="item" :index="index"></free-media-list>
+		</block>
+		
+		 
+		<!-- 弹出层  -->
+		<free-popup  ref="extend" :bodyHeight="getMenusHeight" :bodyWidth="240">
+			<view class="flex flex-column" style="width: 240rpx" :style="getMenusStyle">
+				<view class="flex-1 flex align-center" hover-class="bg-light" v-for="(item,index) in menus" :key="index" @click="clickEvent(item.event,index)">
+					<text class="font-md pl-2">{{item.name}}</text>
+				</view>
+			</view>
+		</free-popup>
+	</view>
+</template>
+
+<script>
+	
+	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
+	import freePopup from '@/components/free-ui/free-popup.vue'
+	import freeMediaList from '@/components/free-ui/free-media-list.vue'
+	
+	export default {
+		components:{
+			freeNavBar,
+			freeMediaList,
+			freePopup
+			// freeAvatar,
+			// freeBadge
+		},
+		data() {
+			return {
+				propIndex: -1,
+				menus: [
+					{
+						name:"设为置顶",
+						event:"setTop"
+					},
+					{
+						name:"删除聊天",
+						event:"delChat"
+					}
+				],
+				
+				// title: "微信(10)",
+				// statusBarHeight: 0
+				list: [
+					{
+						avatar: "/static/images/mail/group.png",
+						nickname: "haha",
+						update_time: "1610894361",
+						data: "测试数据",
+						noreadnum: 2,
+						istop:false
+					},
+					{
+						avatar: "/static/images/mail/group.png",
+						nickname: "haha",
+						update_time: "1610895361",
+						data: "测试数据",
+						noreadnum: 2,
+						istop:false
+					},
+					{
+						avatar: "/static/images/mail/group.png",
+						nickname: "haha",
+						update_time: "1610895361",
+						data: "测试数据",
+						noreadnum: 2,
+						istop:false
+					},
+					{
+						avatar: "/static/images/mail/group.png",
+						nickname: "haha",
+						update_time: "1610895361",
+						data: "测试数据",
+						istop:false
+					},
+					{
+						avatar: "/static/images/mail/group.png",
+						nickname: "haha",
+						update_time: "1610895361",
+						data: "测试数据",
+						istop:true
+					}
+				]
+			}
+		},
+		
+		onLoad() {
+			// // #ifdef APP-PLUS-NVUE
+			// 	this.statusBarHeight = plus.navigator.getStatusbarHeight()
+			// // #endif
+		},
+		computed:{
+			// 动态获取菜单高度
+			getMenusHeight(){
+				let H = 100
+				return this.menus.length * H
+			},
+			// 获取菜单样式
+			getMenusStyle(){
+				return `height: ${this.getMenusHeight}rpx`
+			}
+		},
+		methods: {
+			long({x,y,index}){
+				//弹出菜单的初始化
+				//索引
+				this.propIndex = index
+				//是否置顶
+				this.menus[0].name = this.list[this.propIndex].istop ? '取消置顶' : '设为置顶'
+				this.$refs.extend.show(x,y,index)
+			},
+		// 菜单事件
+			clickEvent(event,index){
+				switch (event){
+					case "setTop": //置顶
+						this.setTop()
+						break;
+					case "delChat": 
+						this.delChat()
+						break;
+				}
+				this.$refs.extend.hide()
+			},
+			//删除当前会话
+			delChat(){
+				this.list.splice(this.propIndex,1)
+			},
+			// 置顶/取消置顶
+			setTop(){
+				this.$nextTick(function(){
+					this.list[this.propIndex].istop = !this.list[this.propIndex].istop
+				})
+			},
+		}
+	}
+</script>
+
+<style>
+	
+</style>

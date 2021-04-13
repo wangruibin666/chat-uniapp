@@ -1,0 +1,116 @@
+<template>
+	<view class="page">
+		<!-- 导航栏 -->
+		<free-nav-bar :title="true" :fixed="true" bgColor="bg-white" showBack>
+			<freeIconButton slot="right" @click="openAction">
+				<text class="iconfont font-md">&#xe6fd;</text>
+			</freeIconButton>
+		</free-nav-bar>
+
+
+		<view class="px-3 py-4 flex align-center bg-white border-bottom">
+			<free-avatar src="/static/images/emotion/chouyan.jpeg" size="120"></free-avatar>
+			<view class="flex flex-column ml-3">
+				<text class="font-lg font-weight-bold mb-1">文弱书生</text>
+				<text class="font-md text-light-muted">账号: summer</text>
+				<text class="font-md text-light-muted">地区: 安徽合肥</text>
+			</view>
+		</view>
+
+
+		<free-list-item title="标签" label="haha" :showRight="true" :showLeftIcon="false" @click="openTagSet"></free-list-item>
+		<freeDivider></freeDivider>
+		<free-list-item title="朋友圈" src="/static/images/emotion/danshen.jpg" :showRight="true" :showLeftIcon="false"></free-list-item>
+
+		<freeDivider></freeDivider>
+		<free-list-item title="朋友圈" :showRight="true" :showLeftIcon="false"></free-list-item>
+		<free-list-item title="更多信息" :showRight="true" :showLeftIcon="false"></free-list-item>
+
+		<freeDivider></freeDivider>
+		<view class="py-3 flex align-center justify-center bg-white" hover-class="bg-light">
+			<text class="iconfont text-primary mr-1">&#xe64e;</text>
+			<text class="font-md text-primary">发信息</text>
+		</view>
+
+		<!-- 展开扩展菜单 -->
+		<free-popup ref="action" bottom transformOrigin="center bottom" maskColor>
+			<scroll-view scroll-y="true" style="height: 580rpx;" class="bg-white">
+				<free-list-item v-for="(item, index) in actions" :key="index" :border="false" :title="item.title" :showRight="false" @click="navigate('mail/user-remark-tag/user-remark-tag')">
+					<text slot="icon" class="iconfont font-lg py-1">{{item.icon}}</text>
+				</free-list-item>
+			</scroll-view>
+
+		</free-popup>
+	</view>
+</template>
+
+<script>
+	import freePopup from '@/components/free-ui/free-popup.vue'
+	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
+	import freeListItem from '@/components/free-ui/free-list-item.vue'
+	import freeDivider from '@/components/free-ui/free-divider.vue'
+	import freeAvatar from '@/components/free-ui/free-avatar.vue'
+	import freeIconButton from '@/components/free-ui/free-icon-button.vue'
+	export default {
+		components: {
+			freePopup,
+			freeListItem,
+			freeNavBar,
+			freeAvatar,
+			freeDivider,
+			freeIconButton
+		},
+		data() {
+			return {
+				actions:[
+					{
+						icon: "\ue6b3",
+						title: "设置备注和标签"
+					},
+					{
+						icon: "\ue613",
+						title: "把他推荐给朋友"
+					},
+					{
+						icon: "\ue6b0",
+						title: "设为星标好友"
+					},
+					{
+						icon: "\ue667",
+						title: "设置朋友圈和动态权限"
+					},
+					{
+						icon: "\ue638",
+						title: "加入黑名单"
+					},
+					{
+						icon: "\ue61c",
+						title: "投诉"
+					}
+				]
+			}
+		},
+		methods: {
+			//打开操作菜单
+			openAction() {
+				console.log(111)
+				this.$refs.action.show()
+			},
+			//跳转
+			navigate(path){
+				uni.navigateTo({
+					url:'/pages/' + path
+				})
+			},
+			openTagSet(){
+				uni.navigateTo({
+					url: '../user-remark-tag/user-remark-tag'
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>
