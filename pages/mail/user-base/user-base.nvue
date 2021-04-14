@@ -10,8 +10,11 @@
 
 		<view class="px-3 py-4 flex align-center bg-white border-bottom">
 			<free-avatar src="/static/images/emotion/chouyan.jpeg" size="120"></free-avatar>
-			<view class="flex flex-column ml-3">
-				<text class="font-lg font-weight-bold mb-1">{{nickname}}</text>
+			<view class="flex flex-column ml-3 flex-1">
+				<view class="flex justify-between align-center">
+					<text class="font-lg font-weight-bold mb-1">{{nickname}}</text>
+					<image v-if="star" src="/static/images/star.png" mode="" style="width: 40rpx;height: 40rpx;"></image>
+				</view>
 				<text class="font-md text-light-muted">账号: summer</text>
 				<text class="font-md text-light-muted">地区: 安徽合肥</text>
 			</view>
@@ -28,14 +31,14 @@
 
 		<freeDivider></freeDivider>
 		<view class="py-3 flex align-center justify-center bg-white" hover-class="bg-light">
-			<text class="iconfont text-primary mr-1">&#xe64e;</text>
-			<text class="font-md text-primary">发信息</text>
+			<text class="iconfont text-primary mr-1" v-if="!isBlack">&#xe64e;</text>
+			<text class="font-md text-primary">{{isBlack ? '移除黑名单' : '发消息'}}</text>
 		</view>
 
 		<!-- 展开扩展菜单 -->
 		<free-popup ref="action" bottom transformOrigin="center bottom" maskColor>
 			<scroll-view scroll-y="true" style="height: 580rpx;" class="bg-white">
-				<free-list-item v-for="(item, index) in actions" :key="index" :border="false" :title="item.title" :showRight="false" @click="navigate('mail/user-remark-tag/user-remark-tag')">
+				<free-list-item v-for="(item, index) in actions" :key="index" :border="false" :title="item.title" :showRight="false" @click="popupEvent(item)">
 					<text slot="icon" class="iconfont font-lg py-1">{{item.icon}}</text>
 				</free-list-item>
 			</scroll-view>
@@ -62,12 +65,16 @@
 		},
 		data() {
 			return {
+				isBlack: false,
+				star: false,
 				nickname: "文弱书生",
 				tagList:[],
 				actions:[
 					{
 						icon: "\ue6b3",
-						title: "设置备注和标签"
+						title: "设置备注和标签",
+						type: 'navigate',
+						path: 'mail/user-remark-tag/user-remark-tag'
 					},
 					{
 						icon: "\ue613",
@@ -75,19 +82,26 @@
 					},
 					{
 						icon: "\ue6b0",
-						title: "设为星标好友"
+						title: "设为星标好友",
+						type: 'event',
+						event: 'setStar'
 					},
 					{
 						icon: "\ue667",
-						title: "设置朋友圈和动态权限"
+						title: "设置朋友圈和动态权限",
+						type: 'navigate',
+						path: 'mail/user-moments-auth/user-moments-auth'
 					},
 					{
 						icon: "\ue638",
-						title: "加入黑名单"
+						title: "加入黑名单",
+						type: 'event',
+						event: 'setBlack'
 					},
 					{
 						icon: "\ue61c",
-						title: "投诉"
+						title: "投诉",
+						
 					}
 				]
 			}
@@ -95,13 +109,57 @@
 		onLoad() {
 			uni.$on('saveRemarkTag', e => {
 				this.tagList = e.tagList
-				this.nickname = e.nickname
+				this.nickname = e.nickname || this.nickname
 			})
 		},
 		beforeDestroy() {
 			uni.$off('saveRemarkTag')
 		},
 		methods: {
+			//设为黑名单
+			setBlack(e){
+				let content = '是否要加入黑名单？',
+				title = '加入黑名单成功'
+				if(this.isBlack){
+					content = '是否要移除黑名单？'
+					title = '移除黑名单成功'
+				}
+				uni.showModal({
+					content: content,
+					success: (res) => {
+						if(res.confirm) {
+							this.isBlack = !this.isBlack
+							e.title = this.isBlack ? "移除黑名单" : "加入黑名单"
+							uni.showToast({
+								title:title,
+								icon: 'none'
+							})
+						}
+					}
+				})
+			},
+			//设为星标事件
+			setStar(e){
+				this.star = !this.star
+				e.title = this.star ? "取消星标好友" : "设为星标好友"
+			},
+			//操作菜单事件
+			popupEvent(e){
+				if(!e.type)return;
+				switch (e.type){
+					case 'navigate':
+						uni.navigateTo({
+							url:'/pages/'+e.path
+						})
+					break;
+					case 'event':
+						this[e.event](e)
+					break;
+
+				}
+				//关闭弹出层
+				this.$refs.action.hide()
+			},
 			//打开操作菜单
 			openAction() {
 				this.$refs.action.show()

@@ -87,9 +87,9 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/*!********************************************!*\
-  !*** C:/Users/wang/Desktop/仿微信/pages.json ***!
-  \********************************************/
+/*!************************************************!*\
+  !*** C:/Users/wang/Desktop/we-chat/pages.json ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -109,6 +109,7 @@ if (typeof Promise !== 'undefined' && !Promise.prototype.finally) {
 if(uni.restoreGlobal){
   uni.restoreGlobal(weex,plus,setTimeout,clearTimeout,setInterval,clearInterval)
 }
+
 
 
 

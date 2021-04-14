@@ -6,20 +6,23 @@
 				通讯录
 			</template>
 		</free-nav-bar>
-		
+
 		<!-- 通讯录列表 -->
+		<scroll-view scroll-y="true">
 			<free-list-item v-for="(item,index) in topList" :key="index" :cover="item.cover" :title="item.title"></free-list-item>
-		
-		<block v-for="(item,index) in list" :key="index">
-			<view v-if="item.data&&item.data.length">
-				<view class="py-2 px-3 border-bottom bg-light">
+
+			<view v-for="(item,index) in list" :key="index">
+				<view v-if="item.data&&item.data.length" class="py-2 px-3 border-bottom bg-light">
 					<text class="font-md text-dark">{{item.letter}}</text>
 				</view>
 				<free-list-item v-for="(item2,index2) in item.data" :key="index2" cover="/static/images/mail/friend.png" :title="item2.title"></free-list-item>
 			</view>
-		</block>
-		
-		
+		</scroll-view>
+
+		<!-- 侧边导航条 -->
+		<view></view>
+
+
 	</view>
 </template>
 
@@ -27,17 +30,15 @@
 	import freeListItem from '@/components/free-ui/free-list-item.vue'
 	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
 	export default {
-		components:{
+		components: {
 			freeNavBar,
 			freeListItem
 		},
 		data() {
 			return {
-				list:[
-					{
+				list: [{
 						letter: 'A',
-						data:[
-							{
+						data: [{
 								title: '阿拉'
 							},
 							{
@@ -50,8 +51,7 @@
 					},
 					{
 						letter: 'D',
-						data:[
-							{
+						data: [{
 								title: '大王'
 							},
 							{
@@ -64,8 +64,7 @@
 					},
 					{
 						letter: 'W',
-						data:[
-							{
+						data: [{
 								title: '王三'
 							},
 							{
@@ -78,13 +77,12 @@
 					},
 					{
 						letter: 'X',
-						data:[
-							
+						data: [
+
 						]
 					}
 				],
-				topList: [
-					{
+				topList: [{
 						title: '新的朋友',
 						cover: '/static/images/mail/friend.png',
 						event: ''
@@ -103,7 +101,7 @@
 			}
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
