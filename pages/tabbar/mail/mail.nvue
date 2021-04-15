@@ -8,7 +8,7 @@
 		</free-nav-bar>
 
 		<!-- 通讯录列表 -->
-		<scroll-view scroll-y="true">
+		<scroll-view scroll-y="true" :style="'height:' + scrollHeight + 'px'">
 			<free-list-item v-for="(item,index) in topList" :key="index" :cover="item.cover" :title="item.title"></free-list-item>
 
 			<view v-for="(item,index) in list" :key="index">
@@ -20,7 +20,11 @@
 		</scroll-view>
 
 		<!-- 侧边导航条 -->
-		<view></view>
+		<view class="position-fixed right-0 bottom-0 bg-light" style="width: 60rpx;" :style="'top:' + top + 'px'" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+			<view v-for="(item, index) in list" :key="index" class="flex-1 flex align-center justify-center">
+				<text class="text-muted">{{item.letter}}</text>
+			</view>
+		</view>
 
 
 	</view>
@@ -34,8 +38,20 @@
 			freeNavBar,
 			freeListItem
 		},
+		computed:{
+			//每个索引高度
+			itemHeight(){
+				let count = this.list.length
+				if(!count){
+					return 0
+				}
+				return this.scrollHeight / count
+			}
+		},
 		data() {
 			return {
+				scrollHeight: 0,
+				top: 0,
 				list: [{
 						letter: 'A',
 						data: [{
@@ -46,6 +62,19 @@
 							},
 							{
 								title: 'Alin'
+							}
+						]
+					},
+					{
+						letter: 'B',
+						data: [{
+								title: '布丁'
+							},
+							{
+								title: '布丁1'
+							},
+							{
+								title: '布丁2'
 							}
 						]
 					},
@@ -63,6 +92,183 @@
 						]
 					},
 					{
+						letter: 'E',
+						data: [{
+								title: '额'
+							},
+							{
+								title: '饿'
+							},
+							{
+								title: '鹅'
+							}
+						]
+					},
+					{
+						letter: 'F',
+						data: [{
+								title: '福'
+							},
+							{
+								title: '父亲'
+							},
+							{
+								title: '富'
+							}
+						]
+					},
+					{
+						letter: 'G',
+						data: [{
+								title: '锅'
+							},
+							{
+								title: '国'
+							},
+							{
+								title: '过'
+							}
+						]
+					},
+					{
+						letter: 'H',
+						data: [{
+								title: '呵呵'
+							},
+							{
+								title: '赫赫'
+							},
+							{
+								title: '贺贺'
+							}
+						]
+					},
+					{
+						letter: 'I',
+						data: [{
+								title: '一月'
+							},
+							{
+								title: '一一'
+							},
+							{
+								title: '依依'
+							}
+						]
+					},
+					{
+						letter: 'J',
+						data: [{
+								title: '姐姐'
+							},
+
+						]
+					},
+					{
+						letter: 'J',
+						data: [{
+								title: '姐姐'
+							},
+
+						]
+					},
+					{
+						letter: 'K',
+						data: [{
+								title: '科科'
+							},
+					
+						]
+					},
+					{
+						letter: 'L',
+						data: [{
+								title: '乐乐'
+							},
+					
+						]
+					},
+					{
+						letter: 'M',
+						data: [{
+								title: '妈妈'
+							},
+					
+						]
+					},
+					{
+						letter: 'N',
+						data: [{
+								title: '奶奶'
+							},
+					
+						]
+					},
+					{
+						letter: 'O',
+						data: [{
+								title: '哦'
+							},
+					
+						]
+					},
+					{
+						letter: 'P',
+						data: [{
+								title: '屁屁'
+							},
+					
+						]
+					},
+					{
+						letter: 'Q',
+						data: [{
+								title: '亲戚'
+							},
+					
+						]
+					},
+					{
+						letter: 'R',
+						data: [{
+								title: '人人'
+							},
+					
+						]
+					},
+					{
+						letter: 'S',
+						data: [{
+								title: '三丝'
+							},
+					
+						]
+					},
+					{
+						letter: 'T',
+						data: [{
+								title: '坦坦'
+							},
+					
+						]
+					},
+					{
+						letter: 'U',
+						data: [{
+								title: 'u'
+							},
+					
+						]
+					},
+					{
+						letter: 'V',
+						data: [{
+								title: 'v'
+							},
+					
+						]
+					},
+					{
 						letter: 'W',
 						data: [{
 								title: '王三'
@@ -77,8 +283,32 @@
 					},
 					{
 						letter: 'X',
-						data: [
-
+						data: [{
+								title: '小一'
+							},
+							{
+								title: '小猫'
+							},
+						]
+					},
+					{
+						letter: 'Y',
+						data: [{
+								title: '一'
+							},
+							{
+								title: '亿'
+							},
+						]
+					},
+					{
+						letter: 'Z',
+						data: [{
+								title: '章'
+							},
+							{
+								title: '张'
+							},
 						]
 					}
 				],
@@ -100,8 +330,23 @@
 				]
 			}
 		},
-		methods: {
 
+		onLoad() {
+			let res = uni.getSystemInfoSync()
+			console.log(res)
+			this.top = res.statusBarHeight + uni.upx2px(90)
+			this.scrollHeight = res.windowHeight - this.top
+		},
+		methods: {
+			touchstart(e){
+				console.log(e)
+			},
+			touchmove(e){
+				console.log(e)
+			},
+			touchend(e){
+				console.log(e)
+			}
 		}
 	}
 </script>
