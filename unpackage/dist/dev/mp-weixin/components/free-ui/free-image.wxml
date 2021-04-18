@@ -1,1 +1,1 @@
-<view><image class="{{[imageClass]}}" style="{{('width:'+w+'px;height:'+h+'px')}}" src="{{src}}" lazy-load="{{true}}" data-event-opts="{{[['tap',[['$emit',['click']]]],['load',[['loadImage',['$event']]]]]}}" bindtap="__e" bindload="__e"></image></view>
+<view><image class="{{['bg-hover-light',imageClass]}}" style="{{('width:'+w+'px;height:'+h+'px')}}" src="{{src}}" lazy-load="{{true}}" data-event-opts="{{[['tap',[['$emit',['click']]]],['load',[['loadImage',['$event']]]]]}}" bindtap="__e" bindload="__e"></image></view>

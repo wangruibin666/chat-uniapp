@@ -7,7 +7,7 @@
 			</template>
 		</free-nav-bar>
 		
-		<free-list-item title="朋友圈" :showRight="true">
+		<free-list-item title="朋友圈" :showRight="true" @click="openMoments">
 			<text slot="icon" class="iconfont font-lg py-1">&#xe667;</text>
 			<view slot="right" class="position-relative p-1">
 				<free-avatar size="55" src="/static/images/mail/group.png"></free-avatar>
@@ -57,7 +57,11 @@
 			}
 		},
 		methods: {
-			
+			openMoments(){
+				uni.navigateTo({
+					url:'../../find/moment/moment'
+				})
+			}
 		}
 	}
 </script>

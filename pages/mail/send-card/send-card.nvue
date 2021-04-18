@@ -1,0 +1,184 @@
+<template>
+	<view class="">
+		<!-- 导航栏 -->
+		<free-nav-bar :title="true" :fixed="true">
+			<template slot="title">
+				请选择
+			</template>
+			<!-- 完成按钮 -->
+			<free-main-button slot="right" :name="muliSelect ? `发送(${selectList.length})` : '多选'" @click="handleNavBarBtn"></free-main-button>
+		</free-nav-bar>
+
+		<!-- 搜索框 -->
+		<view :style="'top:' + top + 'px'" class="p-3 bg-light position-fixed left-0 right-0">
+			<input v-model="keyword" type="text" value="" style="height: 80rpx;" placeholder="搜索" class="bg-white rounded"
+			 placeholder-class="text-center" />
+		</view>
+		<view style="height: 140rpx;"></view>
+		<!-- 联系人列表 -->
+		<view v-if="allList.length" class="">
+			<free-list-item title="更多联系人" :showLeftIcon="false" :border="false"></free-list-item>
+			<view class="px-2 py-1">
+				<text class="font-sm text-muted bg-light">{{keyword ? '搜索结果' : '最近联系人'}}</text>
+			</view>
+			<free-list-item :showRight="true" :showRightIcon="false" v-for="(item, index) in allList" :key="index" :cover="item.avatar"
+			 :title="item.username" @click="selectItem(item)">
+				<view v-if="muliSelect" slot="right" class="border rounded-circle flex align-center justify-center" style="height: 40rpx;width: 40rpx;">
+					<view v-if="item.checked" class="main-bg-color rounded-circle" style="height: 30rpx;width: 30rpx;">
+
+					</view>
+				</view>
+			</free-list-item>
+		</view>
+		
+		<view v-else-if="keyword !== ''" class="flex align-center justify-center" style="height: 100rpx;">
+			<text class="font text-light-muted">暂无搜索结果</text>
+		</view>
+		
+		<free-confirm ref="confirm" title="发送给:">
+			<scroll-view scroll-x="true"  class="flex" :show-scrollbar="false">
+				<view class="mr-1" v-for="i in 20">
+					<freeAvatar src="/static/images/mail/friend.png" size="60"></freeAvatar>
+				</view>
+			</scroll-view>
+			<view class="my-3 bg-light rounded p-2">
+				<text class="font text-light-muted">[个人名片]昵称</text>
+			</view>
+			<input type="text" class="border-bottom font-md" style="height: 60rpx;" placeholder="给朋友留言" />
+		</free-confirm>
+		
+		
+		
+	</view>
+</template>
+
+<script>
+	import freeConfirm from '@/components/free-ui/free-confirm.vue'
+	import freeListItem from '@/components/free-ui/free-list-item.vue'
+	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
+	import freeMainButton from '@/components/free-ui/free-main-button.vue'
+	export default {
+		components: {
+			freeConfirm,
+			freeNavBar,
+			freeMainButton,
+			freeListItem
+		},
+		computed: {
+			allList() {
+				return this.keyword ? this.searchList : this.list
+			},
+			//搜索结果列表
+			searchList() {
+				if (this.keyword === '') {
+					return []
+				} else {
+					return this.list.filter(item => item.username.includes(this.keyword))
+				}
+
+			},
+			//选中列表
+			selectList() {
+				return this.list.filter(item => item.checked)
+			}
+		},
+		data() {
+			return {
+				keyword: '',
+				muliSelect: false,
+				top: 0,
+				list: [{
+						username: '昵称1',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称2',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称3',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称4',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称5',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称6',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称2',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+
+					{
+						username: '昵称2',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称2',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					},
+					{
+						username: '昵称2',
+						avatar: '/static/images/mail/friend.png',
+						checked: false
+					}
+				]
+			}
+		},
+		onLoad() {
+			let res = uni.getSystemInfoSync()
+			this.top = res.statusBarHeight + uni.upx2px(90)
+		},
+		methods: {
+			handleNavBarBtn() {
+				//切换多选状态
+				if (!this.muliSelect) {
+					this.muliSelect = true
+				} else {
+					//发送
+					
+				}
+
+			},
+			// 选中或取消选中
+			selectItem(item) {
+				if (this.muliSelect) {
+					if (!item.checked && this.selectList.length == 9) {
+						return uni.showToast({
+							title: '最多选择9个联系人',
+							icon: 'none'
+						})
+					} else {
+						item.checked = !item.checked
+					}
+
+				}else{
+					this.$refs['confirm'].show((close)=>{
+						close()
+					})
+				}
+
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>

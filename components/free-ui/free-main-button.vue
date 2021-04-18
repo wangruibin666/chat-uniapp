@@ -1,6 +1,6 @@
 <template>
-	<view class="main-bg-color  rounded mr-2 px-2 py-1" @click="$emit('click')">
-		<text class="font text-white">{{name}}</text>
+	<view class=" rounded mr-2 px-2 py-1  " :class="disabled ? 'bg-light border' : 'main-bg-color'" @click="clickEvent">
+		<text class="font " :class="disabled ? 'text-light-muted' : 'text-white'">{{name}}</text>
 	</view>
 </template>
 
@@ -10,6 +10,17 @@
 			name: {
 				type: String,
 				default:''
+			},
+			disabled:{
+				type: Boolean,
+				default: false
+			}
+		},
+		methods:{
+			clickEvent(){
+				if(!this.disabled){
+					this.$emit('click')
+				}
 			}
 		}
 	}

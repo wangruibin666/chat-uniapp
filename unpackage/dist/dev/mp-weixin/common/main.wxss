@@ -21,6 +21,7 @@
 
 
 
+
 /*每个页面公共css */
 /* 图标 */
 .iconfont{
@@ -539,6 +540,9 @@
 /* 主文字色 */
 .main-text-color{
 	color: #08C060;
+}
+.border-main{
+	border-color:  #08C060;
 }
 .bg-chat-item{
 	background-color: #6BEE68;

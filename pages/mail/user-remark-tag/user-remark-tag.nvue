@@ -3,10 +3,8 @@
 		<!-- 导航栏 -->
 		<free-nav-bar :title="true" :fixed="true" bgColor="bg-white" showBack>
 			<text slot="title">设置备注和标签</text>
-			<freeIconButton slot="right" @click="openAction">
 				<!-- 完成按钮 -->
-				<free-main-button name="完成" @click="submit"></free-main-button>
-			</freeIconButton>
+				<free-main-button slot="right" name="完成" @click="submit"></free-main-button>
 		</free-nav-bar>
 		
 		<view class="flex flex-column">

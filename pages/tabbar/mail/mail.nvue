@@ -8,10 +8,10 @@
 		</free-nav-bar>
 
 		<!-- 通讯录列表 -->
-		<scroll-view scroll-y="true" :style="'height:' + scrollHeight + 'px'">
+		<scroll-view :scroll-into-view="scrollInto" scroll-y="true" :style="'height:' + scrollHeight + 'px'">
 			<free-list-item v-for="(item,index) in topList" :key="index" :cover="item.cover" :title="item.title"></free-list-item>
 
-			<view v-for="(item,index) in list" :key="index">
+			<view :id="'item-' + item.letter" v-for="(item,index) in list" :key="index">
 				<view v-if="item.data&&item.data.length" class="py-2 px-3 border-bottom bg-light">
 					<text class="font-md text-dark">{{item.letter}}</text>
 				</view>
@@ -24,6 +24,11 @@
 			<view v-for="(item, index) in list" :key="index" class="flex-1 flex align-center justify-center">
 				<text class="text-muted">{{item.letter}}</text>
 			</view>
+		</view>
+		
+		<!-- 滑动当先字母 -->
+		<view v-if="current" :style="'top:'+ modalTop + 'px'" class="position-fixed rounded-circle bg-light border flex align-center justify-center" style="width: 150rpx;height: 150rpx;left:300rpx">
+			<text class="font-lg">{{current}}</text>
 		</view>
 
 
@@ -39,6 +44,10 @@
 			freeListItem
 		},
 		computed:{
+			//
+			modalTop(){
+				return (this.scrollHeight - uni.upx2px(150)) / 2
+			},
 			//每个索引高度
 			itemHeight(){
 				let count = this.list.length
@@ -50,6 +59,8 @@
 		},
 		data() {
 			return {
+				current:'',
+				scrollInto:'',
 				scrollHeight: 0,
 				top: 0,
 				list: [{
@@ -333,19 +344,32 @@
 
 		onLoad() {
 			let res = uni.getSystemInfoSync()
-			console.log(res)
+			// console.log(res)
 			this.top = res.statusBarHeight + uni.upx2px(90)
 			this.scrollHeight = res.windowHeight - this.top
 		},
 		methods: {
+			changeScrollInto(e){
+				let Y = e.touches[0].pageY
+				console.log(Y)
+				// #ifdef MP
+				Y = Y - this.top
+				// #endif
+				let index = Math.floor(Y / this.itemHeight)
+				let item = this.list[index]
+				if(item){
+					this.scrollInto = 'item-' + item.letter
+					this.current = item.letter
+				}
+			},
 			touchstart(e){
-				console.log(e)
+				this.changeScrollInto(e)
 			},
 			touchmove(e){
-				console.log(e)
+				this.changeScrollInto(e)
 			},
 			touchend(e){
-				console.log(e)
+				this.current = ''
 			}
 		}
 	}

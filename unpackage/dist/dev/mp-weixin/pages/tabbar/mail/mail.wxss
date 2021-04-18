@@ -1,6 +1,5 @@
 
 view,
-label,
 swiper-item,
 scroll-view {
   display:-webkit-box;
@@ -38,8 +37,5 @@ video {
 }
 swiper-item {
   position: absolute;
-}
-button {
-  margin: 0;
 }
 
