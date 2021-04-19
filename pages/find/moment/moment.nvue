@@ -16,15 +16,21 @@
 		<!-- 评论框 -->
 		<free-popup ref="action" bottom transformOrigin="center bottom">
 			<view class="px-3 bg-light border-top flex align-center" style="height: 105rpx;">
-				<textarea v-model="content" fixed class=" bg-white rounded p-2 font-md" style="height: 75rpx;;width: 520rpx" />
+				<textarea v-model="content" :focus="true" fixed class=" bg-white rounded p-2 font-md" style="height: 75rpx;;width: 520rpx" />
 				<!-- 表情 -->
-				<free-icon-button>
+				<free-icon-button @click="changeFaceModal">
 					<text class="iconfont font-md">&#xe605;</text>
 				</free-icon-button>
 				<!-- 发送按钮 -->
-				<free-main-button name="发送" :disabled="content.length === 0"></free-main-button>
+				<free-main-button name="发送" :disabled="content.length === 0" @click="send"></free-main-button>
 							
 			</view>
+			
+			<scroll-view v-if="faceModal" scroll-y="true" style="height:350rpx" class="bg-light flex flex-wrap">
+				<view v-for="(item, index) in faceList" :key="index" class="flex align-center justify-center" hover-class="bg-white" style="width: 107rpx;height: 107rpx;" @click="addFace(item)">
+					<text>{{item}}</text>
+				</view>
+			</scroll-view>
 		</free-popup>
 	</view>
 </template>
@@ -45,7 +51,11 @@
 		},
 		
 		data() {
-			return {
+			return { 
+				//评论的对象
+				ccommentIndex: -1,
+				faceModal: false,
+				faceList: ["😀","😁","😂","😃","😄","😅","😆","😉","😊","😋","😎","😍","😘","😗","😙","😚","😇","😐","😑","😶","😏","😣","😥","😮","😯","😪","😫","😴","😌","😛","😜","😝","😒","😓","😔","😕","😲","😷","😖","😞","😟","😤","😢","😭","😦","😧","😨","😬","😰","😱","😳","😵","😡","😠"],
 				content: '',
 				scrollTop: 0,
 				list: [{
@@ -152,6 +162,26 @@
 			this.scrollTop = e.scrollTop
 		},
 		methods: {
+			send(){
+				this.list[this.ccommentIndex].comments.push({
+					id:1,
+					username: '哈哈',
+					content: this.content
+				})
+				this.$refs['action'].hide()
+			},
+			//开启、关闭表情面板
+			changeFaceModal(){
+				uni.hideKeyboard()
+				setTimeout(()=>{
+					this.faceModal = !this.faceModal
+				},100)
+				
+			},
+			//发送表情
+			addFace(item){
+				this.content += item
+			},
 			//操作菜单
 			doAction(e){
 				uni.showActionSheet({
@@ -160,6 +190,9 @@
 						if(res.tapIndex == 0){
 							this.doSupport(e)
 						}else{
+							this.content = ''
+							this.faceModal = false
+							this.ccommentIndex = e.index
 							this.$refs['action'].show()
 						}
 					}
