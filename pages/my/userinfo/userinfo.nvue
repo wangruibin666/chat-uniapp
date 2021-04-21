@@ -1,0 +1,106 @@
+<template>
+	<view class="page">
+		<free-nav-bar :title="true" :fixed="true" :showRight="false">
+			<template slot="title">
+				个人资料 
+			</template>
+		
+		</free-nav-bar>
+		
+		<free-list-item title="头像" :showRight="true"  :showLeftIcon="false" @click="update('avatar')">
+			<text slot="right" class="font text-muted"></text>
+			<freeAvatar slot="right" :src="user.avatar"></freeAvatar>
+		</free-list-item>
+		
+		<free-list-item title="昵称" :showRight="true" :showLeftIcon="false" @click="update('nickname')">
+			<text slot="right" class="font text-muted">{{user.nickname}}</text>
+		</free-list-item>
+		
+		<free-list-item title="账号" :showRight="true" :showLeftIcon="false" @click="update('username')">
+			<text slot="right" class="font text-muted">{{user.username}}</text>
+		</free-list-item>
+		
+		<free-list-item title="二维码名片" :showRight="true" :showLeftIcon="false">
+			<text slot="right" class="font iconfont text-muted">&#xe647;</text>
+		</free-list-item>
+		
+		<freeConfirm ref="confirm" :title="computedTitle">
+			<input type="text" :placeholder="placeholder" v-model="confirmText" class="border-bottom font-md" />
+		</freeConfirm>
+	</view>
+</template>
+ 
+<script>
+	import freeConfirm from '@/components/free-ui/free-confirm.vue'
+	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
+	import freeAvatar from '@/components/free-ui/free-avatar.vue'
+	import freeListItem from '@/components/free-ui/free-list-item.vue'
+	export default {
+		components:{
+			freeConfirm,
+			freeNavBar,
+			freeAvatar,
+			freeListItem
+		},
+		computed:{
+			computedTitle() {
+				return this.confirmType == 'username' ? '修改账号' : '修改昵称'
+			},
+			placeholder() {
+				return this.confirmType == 'username' ? '输入账号' : '输入昵称'
+			}
+		},
+		data() {
+			return {
+				confirmType: '',
+				confirmText: '',
+				user: {
+					avatar: '/static/images/userpic.png',
+					nickname: '昵称',
+					username: 'codewang'
+				}
+			}
+		},
+		methods: {
+			update(key){
+				switch(key){
+					case 'avatar':
+					uni.chooseImage({
+						count:1,
+						sizeType:['compressed'],
+						sourceType:['album'],
+						success: (res) => {
+							console.log(res)
+							this.user.avatar = res.tempFilePaths[0]
+						}
+					})
+					break;
+					default:
+					this.confirmType = key
+					this.confirmText = this.user[key]
+						this.$refs.confirm.show(
+						(close)=>{
+								if(this.confirmText == ''){
+									return uni.showToast({
+										title:'不能为空',
+										icon: 'none'
+									})
+								}
+								this.user[key] = this.confirmText
+								uni.showToast({
+									title: '修改成功',
+									icon: 'none'
+								})
+								close()
+							}
+						)
+					break;
+				}
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>

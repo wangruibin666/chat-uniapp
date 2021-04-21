@@ -7,10 +7,9 @@
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
-				"renderer": "native",
-				"nvueCompiler":"uni-app",
-        "usingComponents" : true,
+        "renderer" : "native",
         "nvueCompiler" : "uni-app",
+        "usingComponents" : true,
         "compilerVersion" : 3,
         "splashscreen" : {
             "alwaysShowBeforeRender" : true,
@@ -46,7 +45,8 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {}
-        }
+        },
+        "nvueLaunchMode" : ""
     },
     /* 快应用特有相关 */
     "quickapp" : {},
@@ -67,7 +67,7 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "uniStatistics": {  
-        "enable": false
+    "uniStatistics" : {
+        "enable" : false
     }
 }

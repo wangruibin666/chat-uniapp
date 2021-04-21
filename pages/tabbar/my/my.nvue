@@ -12,7 +12,7 @@
 		</free-nav-bar>
 		
 		<!-- 列表组件 -->
-		<free-list-item cover="/static/images/userpic.png" title="文弱书生" showRight coverSize="120">
+		<free-list-item cover="/static/images/userpic.png" title="文弱书生" showRight coverSize="120" @click="openUserInfo">
 			<view slot="title" class="flex flex-column">
 				<text class="text-dark font-lg font-weight-bold">文弱书生</text>
 				<text class="text-light-muted font mt-2">微信号:w1099690237</text>
@@ -64,7 +64,11 @@
 			}
 		},
 		methods: {
-			
+			openUserInfo(){
+				uni.navigateTo({
+					url:'../../my/userinfo/userinfo'
+				})
+			}
 		}
 	}
 </script>
