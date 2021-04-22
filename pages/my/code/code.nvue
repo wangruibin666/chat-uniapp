@@ -1,0 +1,50 @@
+<template>
+	<view class="page">
+		<free-nav-bar :showBack="true" :title="true"  :showRight="false">
+			<template slot="title">
+				个人资料 
+			</template>
+		
+		</free-nav-bar>
+		
+		<view class="p-5">
+			<view class="bg-white rounded p-4">
+				<view class="flex align-center p-4">
+					<free-avatar src="/static/images/userpic.png"></free-avatar>
+					
+					<view class="pl-4 flex flex-column">
+						<text class="font-md">昵称</text>
+						<text class="font text-light-muted">地区</text>
+					</view>
+				</view>
+				<view class="flex flex-column align-center justify-center">
+					<image src="../../../static/images/emotion/kelian.gif" style="width:550rpx; height: 550rpx;" class="bg-secondary mb-4" mode=""></image>
+					<text class="font text-light-muted">扫一扫上方二维码加微信</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import freeAvatar from '@/components/free-ui/free-avatar.vue'
+	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
+	export default {
+		components:{
+			freeNavBar,
+			freeAvatar
+		},
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+
+</style>

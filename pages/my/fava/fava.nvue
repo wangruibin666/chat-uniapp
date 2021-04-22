@@ -1,0 +1,48 @@
+<template>
+	<view class="page">
+		<free-nav-bar :title="true" showBack :fixed="true" :showRight="false">
+			<template slot="title">
+				我的收藏 
+			</template>
+		
+		</free-nav-bar>
+		
+		<view class="p-3 px-3">
+			<view class="bg-white rounded p-3">
+				<text>聊天记录</text>
+			</view>
+		</view>
+		
+		<view class="p-3 px-3">
+			<view class="bg-white rounded p-3">
+				<freeImage src="/static/images/emotion/layanjing.jpeg" :size="550"></freeImage>
+				<!-- <image src="/static/images/emotion/layanjing.jpeg" style="width: 550rpx; height: 550rpx;" mode=""></image> -->
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import freeImage from '@/components/free-ui/free-image.vue'
+	import freeAvatar from '@/components/free-ui/free-avatar.vue'
+	import freeNavBar from '@/components/free-ui/free-nav-bar.vue'
+	export default {
+		components:{
+			freeImage,
+			freeNavBar,
+			freeAvatar
+		},
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+
+</style>

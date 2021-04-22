@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<free-nav-bar :title="true" :fixed="true" :showRight="false">
+		<free-nav-bar :title="true" :fixed="true" showBack="" :showRight="false">
 			<template slot="title">
 				个人资料 
 			</template>
@@ -20,7 +20,7 @@
 			<text slot="right" class="font text-muted">{{user.username}}</text>
 		</free-list-item>
 		
-		<free-list-item title="二维码名片" :showRight="true" :showLeftIcon="false">
+		<free-list-item title="二维码名片" :showRight="true" :showLeftIcon="false" @click="openCode">
 			<text slot="right" class="font iconfont text-muted">&#xe647;</text>
 		</free-list-item>
 		
@@ -62,6 +62,11 @@
 			}
 		},
 		methods: {
+			openCode(){
+				uni.navigateTo({
+					url:'../code/code'
+				})
+			},
 			update(key){
 				switch(key){
 					case 'avatar':

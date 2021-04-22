@@ -28,13 +28,13 @@
 			<text slot="icon" class="iconfont font-lg py-1">&#xe66c;</text>
 		</free-list-item>
 		<free-divider></free-divider>
-		<free-list-item title="收藏" :showRight="true">
+		<free-list-item title="收藏" :showRight="true" @click="open('my/fava/fava')">
 			<text slot="icon" class="iconfont font-lg py-1">&#xea2d;</text>
 		</free-list-item>
 		<free-list-item title="表情" :showRight="true">
 			<text slot="icon" class="iconfont font-lg py-1">&#xe605;</text>
 		</free-list-item>
-		<free-list-item title="相册" :showRight="true">
+		<free-list-item title="相册" :showRight="true" @click="open('find/moment/moment')">
 			<text slot="icon" class="iconfont font-lg py-1">&#xe608;</text>
 		</free-list-item>
 		<free-divider></free-divider>
@@ -67,6 +67,11 @@
 			openUserInfo(){
 				uni.navigateTo({
 					url:'../../my/userinfo/userinfo'
+				})
+			},
+			open(src){
+				uni.navigateTo({
+					url:'../../'+src
 				})
 			}
 		}

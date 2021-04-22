@@ -1,46 +1,49 @@
 <template>
-	<view class="">
-		<free-transparent-bar :scrollTop="scrollTop"></free-transparent-bar>
+	<view>
+		<free-transparent-bar :scrollTop="scrollTop"
+		@clickRight="clickRight"></free-transparent-bar>
 		<view class="position-relative" style="height: 620rpx;">
-			<image src="/static/images/bg.jpg" mode="aspectFill" style="height: 590rpx;" class="bg-secondary w-100" lazy-load></image>
-			<image src="/static/images/emotion/chouyan.jpeg" mode="" style="width: 120rpx;height: 120rpx;right: 30rpx;" class="bg-secondary rounded position-absolute bottom-0"></image>
-			<text class="text-white font-md position-absolute" style="bottom: 45rpx; right: 160rpx;">文弱书生</text>
+			<image src="https://douyinzcmcss.oss-cn-shenzhen.aliyuncs.com/shengchengqi/datapic/1.jpg" mode="aspectFill" style="height: 590rpx;" class="bg-secondary w-100"></image>
+			<image src="/static/images/userpic.png" style="width: 120rpx;height: 120rpx;right: 30rpx;" class="bg-secondary rounded position-absolute bottom-0"></image>
+			<text class="text-white font-md position-absolute"
+			style="bottom: 45rpx;right: 160rpx;">Summer</text>
 		</view>
-
-
-		<!-- 朋友圈列表样式 -->
-		<view class="" v-for="(item, index) in list" :key="index">
-			<free-moment-list :item="item" :index="index" @action="doAction"></free-moment-list>
-		</view>
+		
+		<!-- 朋友圈列表 -->
+		<free-moment-list v-for="(item,index) in list" :key="index"
+		:item="item" :index="index" @action="doAction"></free-moment-list>
 		
 		<!-- 评论框 -->
 		<free-popup ref="action" bottom transformOrigin="center bottom">
-			<view class="px-3 bg-light border-top flex align-center" style="height: 105rpx;">
-				<textarea v-model="content" :focus="true" fixed class=" bg-white rounded p-2 font-md" style="height: 75rpx;;width: 520rpx" />
-				<!-- 表情 -->
-				<free-icon-button @click="changeFaceModal">
-					<text class="iconfont font-md">&#xe605;</text>
-				</free-icon-button>
-				<!-- 发送按钮 -->
+			<view style="height: 105rpx;" class="bg-light border-top flex align-center px-3">
+				<textarea fixed class="bg-white rounded p-2 font-md" style="height: 75rpx;width: 520rpx;" :focus="true" v-model="content"/>
+				<free-icon-button :icon="'\ue605'"
+				@click="changeFaceModal"></free-icon-button>
 				<free-main-button name="发送" :disabled="content.length === 0" @click="send"></free-main-button>
-							
 			</view>
-			
-			<scroll-view v-if="faceModal" scroll-y="true" style="height:350rpx" class="bg-light flex flex-wrap">
-				<view v-for="(item, index) in faceList" :key="index" class="flex align-center justify-center" hover-class="bg-white" style="width: 107rpx;height: 107rpx;" @click="addFace(item)">
+			<scroll-view v-if="faceModal" scroll-y="true" 
+			style="height: 350rpx;"
+			class="bg-light flex flex-wrap">
+				<view style="width: 107rpx;height: 107rpx;"
+				class="flex align-center justify-center"
+				hover-class="bg-white"
+				v-for="(item,index) in faceList"
+				:key="index"
+				@click="addFace(item)">
 					<text>{{item}}</text>
 				</view>
 			</scroll-view>
 		</free-popup>
+		
 	</view>
 </template>
 
 <script>
-	import freeMainButton from '@/components/free-ui/free-main-button.vue'
-	import freeIconButton from '@/components/free-ui/free-icon-button.vue'
-	import freePopup from '@/components/free-ui/free-popup.vue'
-	import freeMomentList from '@/components/free-ui/free-moment-list.vue'
-	import freeTransparentBar from '@/components/free-ui/free-transparent-bar.vue'
+	import freeTransparentBar from '@/components/free-ui/free-transparent-bar.vue';
+	import freeMomentList from '@/components/free-ui/free-moment-list.vue';
+	import freePopup from '@/components/free-ui/free-popup.vue';
+	import freeIconButton from "@/components/free-ui/free-icon-button.vue"
+	import freeMainButton from '@/components/free-ui/free-main-button.vue';
 	export default {
 		components: {
 			freeTransparentBar,
@@ -49,162 +52,143 @@
 			freeIconButton,
 			freeMainButton
 		},
-		
 		data() {
-			return { 
-				//评论的对象
-				ccommentIndex: -1,
-				faceModal: false,
-				faceList: ["😀","😁","😂","😃","😄","😅","😆","😉","😊","😋","😎","😍","😘","😗","😙","😚","😇","😐","😑","😶","😏","😣","😥","😮","😯","😪","😫","😴","😌","😛","😜","😝","😒","😓","😔","😕","😲","😷","😖","😞","😟","😤","😢","😭","😦","😧","😨","😬","😰","😱","😳","😵","😡","😠"],
-				content: '',
-				scrollTop: 0,
-				list: [{
-						id: 2,
-						avatar: '/static/images/emotion/danshen.jpg',
-						username: '昵称',
-						context: '靓仔，听说这个月会上线：外卖配送系统全栈教程，在线点播，多端客服系统，企业网盘系统',
-						image: [{
-								src: '/static/images/emotion/danshen.jpg'
-							},
-							{
-								src: '/static/images/emotion/danshen.jpg'
-							}
-
-						],
-						video: false,
-						create_time: 1567481668,
-						supports: [{
-							id: 1,
-							username: '哈哈',
-							avatar: '/static/images/emotion/chouyan.jpeg'
-						}],
-						comments: [{
-								id: 1,
-								username: '哈哈',
-								content: '评论内容'
-
-							},
-							{
-								id: 1,
-								username: '哈哈',
-								content: '评论内容'
-
-							}
-						]
+			return {
+				content:"",
+				scrollTop:0,
+				list:[{
+					id:2,
+					avatar:'/static/images/userpic.png',
+					username:'昵称',
+					context:'靓仔，听说这个月会上线：外卖配送系统全栈教程，在线点播全栈教程，多端客服系统，企业网盘系统',
+					image:[],
+					video:false,
+					create_time:1567481668,
+					supports:[{
+						id:1,
+						username:"昵称",
+						avatar:'/static/images/userpic.png',
+					}],
+					comments:[{
+						id:1,
+						username:"昵称",
+						content:"评论内容"
+					}]
+				},{
+					id:2,
+					avatar:'/static/images/userpic.png',
+					username:'昵称',
+					context:'靓仔，听说这个月会上线：外卖配送系统全栈教程，在线点播全栈教程，多端客服系统，企业网盘系统',
+					image:[{
+						src:"https://douyinzcmcss.oss-cn-shenzhen.aliyuncs.com/shengchengqi/datapic/1.jpg"
+					}],
+					video:false,
+					create_time:1567481668,
+					supports:[],
+					comments:[]
+				},{
+					id:2,
+					avatar:'/static/images/userpic.png',
+					username:'昵称',
+					context:'靓仔，听说这个月会上线：外卖配送系统全栈教程，在线点播全栈教程，多端客服系统，企业网盘系统',
+					image:[{
+						src:"https://douyinzcmcss.oss-cn-shenzhen.aliyuncs.com/shengchengqi/datapic/1.jpg"
+					},{
+						src:"https://douyinzcmcss.oss-cn-shenzhen.aliyuncs.com/shengchengqi/datapic/1.jpg"
+					}],
+					video:false,
+					create_time:1567481668,
+					supports:[],
+					comments:[]
+				},{
+					id:2,
+					avatar:'/static/images/userpic.png',
+					username:'昵称',
+					context:'靓仔，听说这个月会上线：外卖配送系统全栈教程，在线点播全栈教程，多端客服系统，企业网盘系统',
+					image:[],
+					video:{
+						src:"/static/video/demo.mp4",
+						poster:"https://douyinzcmcss.oss-cn-shenzhen.aliyuncs.com/shengchengqi/datapic/1.jpg"
 					},
-					{
-						id: 2,
-						avatar: '/static/images/emotion/danshen.jpg',
-						username: '昵称',
-						context: '靓仔，听说这个月会上线：外卖配送系统全栈教程，在线点播，多端客服系统，企业网盘系统',
-						image: [{
-								src: '/static/images/emotion/danshen.jpg'
-							}
-
-						],
-						video: false,
-						create_time: 1567481668,
-						supports: [{
-							id: 1,
-							username: '哈哈',
-							avatar: '/static/images/emotion/chouyan.jpeg'
-						}],
-						comments: [{
-								id: 1,
-								username: '哈哈',
-								content: '评论内容'
-
-							},
-							{
-								id: 1,
-								username: '哈哈',
-								content: '评论内容'
-
-							}
-						]
-					},
-					{
-						id: 2,
-						avatar: '/static/images/emotion/danshen.jpg',
-						username: '昵称',
-						context: '靓仔，听说这个月会上线：外卖配送系统全栈教程，在线点播，多端客服系统，企业网盘系统',
-						image: [
-					
-						],
-						video: {
-							poster: 'https://douyinzcmcss.oss-cn-shenzhen.aliyuncs.com/shengchengqi/datapic/1.jpg',
-							src: '/static/video/demo.mp4'
-						},
-						create_time: 1567481668,
-						supports: [{
-							id: 1,
-							username: '哈哈',
-							avatar: '/static/images/emotion/chouyan.jpeg'
-						}],
-						comments: [{
-								id: 1,
-								username: '哈哈',
-								content: '评论内容'
-					
-							},
-							{
-								id: 1,
-								username: '哈哈',
-								content: '评论内容'
-					
-							}
-						]
-					}
-				]
+					create_time:1567481668,
+					supports:[],
+					comments:[]
+				}],
+				
+				faceModal:false,
+				faceList:["😀","😁","😂","😃","😄","😅","😆","😉","😊","😋","😎","😍","😘","😗","😙","😚","😇","😐","😑","😶","😏","😣","😥","😮","😯","😪","😫","😴","😌","😛","😜","😝","😒","😓","😔","😕","😲","😷","😖","😞","😟","😤","😢","😭","😦","😧","😨","😬","😰","😱","😳","😵","😡","😠"],
+				// 评论的对象
+				commentIndex:-1
 			}
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop
 		},
 		methods: {
-			send(){
-				this.list[this.ccommentIndex].comments.push({
-					id:1,
-					username: '哈哈',
-					content: this.content
-				})
-				this.$refs['action'].hide()
+			// 点击操作菜单
+			doAction(e){
+				uni.showActionSheet({
+					itemList: ['点赞','评论'],
+					success: res => {
+						if(res.tapIndex === 0){
+							this.doSupport(e)
+						} else {
+							this.content = ''
+							this.faceModal = false
+							this.commentIndex = e.index
+							this.$refs.action.show()
+						}
+					},
+				});
 			},
-			//开启、关闭表情面板
+			// 点赞
+			doSupport(e){
+				e.item.supports.push({
+					id:1,
+					username:"昵称",
+					avatar:'/static/images/userpic.png',
+				})
+			},
+			// 添加表情
+			addFace(item){
+				this.content += item
+			},
+			// 开启/关闭表情包面板
 			changeFaceModal(){
 				uni.hideKeyboard()
 				setTimeout(()=>{
 					this.faceModal = !this.faceModal
 				},100)
-				
 			},
-			//发送表情
-			addFace(item){
-				this.content += item
+			// 发送
+			send(){
+				this.list[this.commentIndex].comments.push({
+					id:1,
+					username:"昵称",
+					content:this.content
+				})
+				this.$refs.action.hide()
 			},
-			//操作菜单
-			doAction(e){
+			// 选择发表朋友圈类型
+			clickRight(){
+				let list = [{
+					name:"图文",
+					key:"image"
+				},{
+					name:"短视频",
+					key:"video"
+				},{
+					name:"文字",
+					key:"text"
+				}]
 				uni.showActionSheet({
-					itemList:['点赞','评论'],
-					success: (res) => {
-						if(res.tapIndex == 0){
-							this.doSupport(e)
-						}else{
-							this.content = ''
-							this.faceModal = false
-							this.ccommentIndex = e.index
-							this.$refs['action'].show()
-						}
-					}
-				})
-			},
-			//点赞
-			doSupport(e){
-				e.item.supports.push({
-					id: 1,
-					username: '哈哈',
-					avatar: '/static/images/emotion/chouyan.jpeg'
-				})
+					itemList: list.map(v=>v.name),
+					success: res => {
+						uni.navigateTo({
+							url: '../add-moment/add-moment?type='+list[res.tapIndex].key,
+						});
+					},
+				});
 			}
 		}
 	}

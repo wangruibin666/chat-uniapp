@@ -1,0 +1,72 @@
+<template>
+	<view class="page">
+		<!-- 导航栏 -->
+		<free-nav-bar showBack :showRight="false" :backEvent="false"
+		@back="back">
+			<input type="text" :placeholder="placeholder" 
+			style="width: 650rpx;" class="font-md"/>
+		</free-nav-bar>
+		
+		<view v-if="searchType == ''">
+			<view class="py-5 flex align-center justify-center">
+				<text class="font text-light-muted">搜索指定内容</text>
+			</view>
+			
+			<view class="px-4 flex flex-wrap">
+				<view class="flex align-center justify-center mb-3 border-left border-right" style="width: 223rpx;" v-for="(item,index) in typeList" :key="index" @click="searchType = item.key">
+					<text class="font text-hover-primary">{{item.name}}</text>
+				</view>
+			</view>
+		</view>
+		
+	</view>
+</template>
+
+<script>
+	import freeNavBar from "@/components/free-ui/free-nav-bar.vue"
+	export default {
+		components: {
+			freeNavBar
+		},
+		data() {
+			return {
+				typeList:[{
+					name:"聊天记录",
+					key:"history"
+				},{
+					name:"用户",
+					key:"user"
+				},{
+					name:"群聊",
+					key:"group"
+				}],
+				searchType:""
+			}
+		},
+		computed: {
+			placeholder() {
+				let obj = this.typeList.find((item)=>{
+					return item.key === this.searchType
+				})
+				if(obj){
+					return '搜索'+obj.name
+				}
+				return '请输入关键字'
+			}
+		},
+		methods: {
+			back(){
+				if(this.searchType == ''){
+					return uni.navigateBack({
+						delta: 1
+					});
+				}
+				this.searchType = ''
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>

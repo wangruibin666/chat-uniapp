@@ -9,11 +9,12 @@
 				<view class="flex align-center">
 					<!-- 返回按钮 -->
 					<free-icon-button v-if="showBack" @click="back">
-						<text class="iconfont font-md">&#xe60d;</text>
+						<text class="iconfont font-lg">&#xe60d;</text>
 					</free-icon-button>
 					
 					<!-- 标题 -->
 					<view v-if="title" class="font-md ml-3"><slot name="title"></slot></view>
+					<slot></slot>
 				</view>
 				<!-- 右边 -->
 				<view class="flex align-center" v-if=showRight>
@@ -61,6 +62,10 @@
 			this.navBarHeight = this.statusBarHeight + uni.upx2px(90)
 		},
 		props:{
+			backEvent:{
+				type:Boolean,
+				default: false
+			},
 			showRight:{
 				type: Boolean,
 				default: true
@@ -133,13 +138,20 @@
 				this.$refs.extend.show(uni.upx2px(415),uni.upx2px(150))
 			},
 			search(){
-				
+				uni.navigateTo({
+					url:'/pages/common/search/search'
+				})
 			},
 			// 返回
 			back(){
-				uni.navigateBack({
-					delta: 1
-				});
+				if(this.backEvent){
+					uni.navigateBack({
+						delta: 1
+					});
+				}else{
+					this.$emit('back')
+				}
+				
 			}
 		}
 	}
