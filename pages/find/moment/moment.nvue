@@ -17,8 +17,10 @@
 		<free-popup ref="action" bottom transformOrigin="center bottom">
 			<view style="height: 105rpx;" class="bg-light border-top flex align-center px-3">
 				<textarea fixed class="bg-white rounded p-2 font-md" style="height: 75rpx;width: 520rpx;" :focus="true" v-model="content"/>
-				<free-icon-button :icon="'\ue605'"
-				@click="changeFaceModal"></free-icon-button>
+				<free-icon-button
+				@click="changeFaceModal">
+					<text class="iconfont">&#xe605;</text>
+				</free-icon-button>
 				<free-main-button name="发送" :disabled="content.length === 0" @click="send"></free-main-button>
 			</view>
 			<scroll-view v-if="faceModal" scroll-y="true" 

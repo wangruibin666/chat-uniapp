@@ -9,6 +9,14 @@
 		<!-- 图文 -->
 		<free-upload-image :data="imageList" v-if="type === 'image'" @update="updateImage"></free-upload-image>
 		<!-- 视频 -->
+		<view v-if="type === 'video' && !video" class="flex align-center justify-center bg-light rounded" style="height: 350rpx;" hover-class="bg-hover-light" @click="uploadVideo">
+			<text  class="text-muted" style="font-size: 100rpx;">+</text>
+		</view>
+		<video v-if="video" :src="video" controls style="height: 350rpx;" class="flex-1"></video>
+		<view v-if="video" class="my-3 flex align-center justify-center bg-light" hover-class="bg-hover-light" style="height: 100rpx;" @click="uploadVideo">
+			<text class="font-md text-muted ">点击切换视频</text>
+		</view>
+		
 		<free-list-item title="所在位置" showRight :showLeftIcon="false">
 			<text slot="right" class="font-md">位置</text>
 		</free-list-item>
@@ -36,9 +44,10 @@
 		},
 		data() {
 			return {
-				content:"",
-				imageList:[],
-				type:"image"
+				content: "",
+				imageList: [],
+				type: "image",
+				video: ""
 			}
 		},
 		onLoad(e) {
@@ -51,6 +60,18 @@
 			// 上传图片
 			updateImage(list){
 				this.imageList = list
+			},
+			//上传视频
+			uploadVideo(){
+				if(this.video){
+					this.video = ''
+				}
+				uni.chooseVideo({
+					maxDuration:10,
+					success: (e) => {
+						this.video = e.tempFilePath
+					}
+				})
 			}
 		}
 	}

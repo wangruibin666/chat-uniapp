@@ -1,0 +1,62 @@
+<template>
+	<view class="">
+		
+		<view v-if="!show" class="position-fixed top-0 bottom-0 left-0 right-0 bg-light flex align-center justify-center">
+			<text class="text-muted font">正在加载...</text>
+		</view>
+		
+		<view v-else class="">
+			<view class="flex align-center justify-center" style="height: 350rpx;">
+				<text class="font-lg" style="font-size: 50rpx;">欢迎</text>
+			</view>
+			<view class="px-3">
+				<input class="bg-light py-2 px-3 mb-3 font" type="text" style="height: 100rpx;" placeholder="请输入用户名:" />
+				<input class="bg-light py-2 px-3 mb-3 font" type="text" style="height: 100rpx;" placeholder="请输入密码:" />
+				<input v-if="type == 'reg'" class="bg-light py-2 px-3 mb-3 font" type="text" style="height: 100rpx;" placeholder="确认密码:" />
+			</view>
+			<view class="p-3 flex align-center justify-center">
+				<view hover-class="main-bg-hover-color" class="rounded main-bg-color flex align-center justify-center flex-1 p-3">
+					<text class="text-white font-md">{{type == 'login' ? '登 录' : '注 册'}}</text>
+				</view>
+			</view>
+			
+			<view class="flex align-center justify-center">
+				<text class="text-light-muted font p-2" @click="changeType">{{type == 'login' ? '注册账号' : '马上登录'}}</text>
+				<text class="text-light-muted font">|</text>
+				<text class="text-light-muted font p-2">忘记密码</text>
+			</view>
+		</view>
+		
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				type: 'login',
+				show: false
+			}
+		},
+		created() {
+			setTimeout(()=>{
+				//用户未登录
+				// this.show = true
+				// 用户已经登录
+				uni.switchTab({
+					url:'../../tabbar/index/index'
+				})
+			}, 800)
+			
+		},
+		methods: {
+			changeType(){
+				this.type = this.type == 'login' ? 'reg' : 'login'
+			}
+		}
+	}
+</script>
+
+<style scoped>
+
+</style>

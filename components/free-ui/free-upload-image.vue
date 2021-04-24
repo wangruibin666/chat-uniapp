@@ -33,7 +33,7 @@
 			}
 		},
 		mounted() {
-			this.imageList = data
+			this.imageList = this.data
 		},
 		methods:{
 			// 选择图片

@@ -64,7 +64,7 @@
 		props:{
 			backEvent:{
 				type:Boolean,
-				default: false
+				default: true
 			},
 			showRight:{
 				type: Boolean,
