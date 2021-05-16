@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "free-confirm": "/components/free-ui/free-confirm",
+    "free-nav-bar": "/components/free-ui/free-nav-bar",
+    "free-avatar": "/components/free-ui/free-avatar",
+    "free-list-item": "/components/free-ui/free-list-item"
+  }
+}

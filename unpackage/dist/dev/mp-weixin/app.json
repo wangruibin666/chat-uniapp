@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/common/login/login",
     "pages/tabbar/index/index",
     "pages/tabbar/find/find",
     "pages/tabbar/mail/mail",
@@ -11,7 +12,14 @@
     "pages/mail/user-remark-tag/user-remark-tag",
     "pages/mail/user-tag-set/user-tag-set",
     "pages/mail/user-moments-auth/user-moments-auth",
-    "pages/mail/send-card/send-card"
+    "pages/mail/send-card/send-card",
+    "pages/mail/user-report/user-report",
+    "pages/find/moment/moment",
+    "pages/my/userinfo/userinfo",
+    "pages/my/code/code",
+    "pages/my/fava/fava",
+    "pages/common/search/search",
+    "pages/find/add-moment/add-moment"
   ],
   "subPackages": [],
   "window": {

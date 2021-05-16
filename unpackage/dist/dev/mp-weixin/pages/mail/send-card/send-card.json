@@ -2,9 +2,9 @@
   "navigationBarTitleText": "",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "free-confirm": "/components/free-ui/free-confirm",
     "free-nav-bar": "/components/free-ui/free-nav-bar",
     "free-main-button": "/components/free-ui/free-main-button",
-    "free-list-item": "/components/free-ui/free-list-item",
-    "free-popup": "/components/free-ui/free-popup"
+    "free-list-item": "/components/free-ui/free-list-item"
   }
 }
